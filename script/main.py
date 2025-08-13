@@ -38,13 +38,14 @@ qa_chain = RetrievalQA.from_chain_type(
     chain_type_kwargs={"prompt": prompt_template}
 )
 
+
 # --- FastAPI Setup ---#
 app = FastAPI()
 
 class QueryInput(BaseModel):
     query: str
 
-# --- Helper: Call Ollama directly for self-confidence ---#
+# --- Helper: Call Ollama directly for self-confidence score ---#
 def get_model_confidence(answer: str) -> float:
     prompt = f"How confident are you in the following answer on a scale from 0 to 1? Only return the number.\n\nAnswer:\n{answer}"
     response = requests.post("http://localhost:11434/api/generate", json={
